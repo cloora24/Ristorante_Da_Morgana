@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block titolo %}Tavoli{% endblock %}
+
+{% block contenuto %}
+<header class="page-heading">
+  <span class="eyebrow">IL SERVIZIO IN SALA</span><h1>Un posto a tavola.</h1>
+  <p>Segui i conti aperti o scegli un tavolo per la prima ordinazione.</p>
+</header>
+<section class="surface" aria-labelledby="titolo-occupati">
+  <div class="section-heading"><div><span class="eyebrow">CONTI APERTI</span><h2 id="titolo-occupati">Tavoli occupati</h2></div><span class="status-pill status-preparing">Servizio in corso</span></div>
+  {% if occupati %}
+  <div class="table-responsive">
+    <table class="table align-middle mb-0">
+      <thead><tr><th scope="col">Tavolo</th><th scope="col">Zona</th><th scope="col">Porzioni</th><th scope="col" class="text-end">Conto</th><th scope="col"><span class="visually-hidden">Azioni</span></th></tr></thead>
+      <tbody>
+        {% for t in occupati %}
+        <tr><td><span class="table-number">{{ t.numero }}</span></td><td>{{ t.zona }}</td><td>{{ t.porzioni }}</td><td class="text-end price">€ {{ t.totale }}</td><td class="text-end"><a class="btn btn-danger" href="/tavolo/{{ t.id_tavolo }}">Vai al tavolo <span aria-hidden="true">→</span></a></td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><h3>La sala è pronta</h3><p>Tutti i tavoli sono liberi. Aggiungi un piatto per aprire il primo conto.</p></div>
+  {% endif %}
+</section>
+<section class="mt-5" aria-labelledby="titolo-tutti">
+  <div class="section-heading outside-heading"><div><span class="eyebrow">SALA · VERANDA · ESTERNO</span><h2 id="titolo-tutti">Tutti i tavoli</h2></div></div>
+  <div class="row g-3">
+    {% for t in tavoli %}
+    <div class="col-12 col-sm-6 col-lg-3">
+      <article class="card table-card h-100"><div class="card-body">
+        <div class="d-flex justify-content-between align-items-center mb-4"><span class="quiet-label">{{ t.zona }}</span><span class="status-pill {% if t.occupato %}status-preparing{% else %}status-free{% endif %}">{% if t.occupato %}Occupato{% else %}Libero{% endif %}</span></div>
+        <h3>Tavolo <span>{{ t.numero }}</span></h3><p>{{ t.posti }} posti · {{ t.zona }}</p>
+        <a class="btn btn-outline-primary w-100" href="/tavolo/{{ t.id_tavolo }}">Apri tavolo <span aria-hidden="true">→</span></a>
+      </div></article>
+    </div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block titolo %}Menù{% endblock %}
+
+{% block contenuto %}
+<section class="menu-hero">
+  <div>
+    <span class="eyebrow"><span class="small-dot" aria-hidden="true"></span> BENVENUTI ALLA NOSTRA TAVOLA</span>
+    <h1>Buon cibo.<br><em>Buona compagnia.</em></h1>
+    <p>I sapori della tradizione, il piacere di stare insieme.<br>Scopri il menù della Trattoria Da Mario.</p>
+  </div>
+  <aside class="hero-note">
+    <span class="note-top">LA NOSTRA FILOSOFIA</span>
+    <span class="note-decoration" aria-hidden="true">✳</span>
+    <p>Ingredienti semplici.<br>Piatti fatti con cura.</p>
+    <span class="note-bottom">Dagli antipasti al caffè.</span>
+  </aside>
+</section>
+<section class="surface menu-surface" aria-labelledby="titolo-menu">
+  <div class="section-heading">
+    <div><span class="eyebrow">SAPORI DI CASA</span><h2 id="titolo-menu">Il nostro menù</h2></div>
+    <span class="quiet-label">Prezzi in euro</span>
+  </div>
+  {% if piatti %}
+  <div class="table-responsive">
+    <table class="table menu-table align-middle mb-0">
+      <thead><tr><th scope="col">Categoria</th><th scope="col">Piatto</th><th scope="col" class="text-end">Prezzo</th></tr></thead>
+      <tbody>
+        {% for p in piatti %}
+        <tr>
+          <td><span class="category-badge">{{ p.categoria }}</span></td>
+          <td><strong class="dish-name">{{ p.nome }}</strong>{% if p.descrizione %}<small class="dish-description">{{ p.descrizione }}</small>{% endif %}</td>
+          <td class="text-end price">€ {{ p.prezzo }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <div class="empty-state"><h3>Il menù è in preparazione</h3><p>Torna tra poco per scoprire i nostri piatti.</p></div>
+  {% endif %}
+</section>
+<p class="page-note">Pronto a ordinare? <a href="/tavoli">Scegli un tavolo <span aria-hidden="true">→</span></a></p>
+{% endblock %}

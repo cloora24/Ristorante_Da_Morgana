@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block titolo %}Cucina{% endblock %}
+
+{% block contenuto %}
+<header class="page-heading"><span class="eyebrow">DIETRO LE QUINTE</span><h1>Passiamo in cucina.</h1><p>Le ordinazioni in preparazione, dalla prima arrivata all’ultima.</p></header>
+{% if ordinazioni %}
+<div class="row g-4">
+  {% for o in ordinazioni %}
+  <div class="col-12 col-md-6 col-xl-4">
+    <article class="card kitchen-card h-100">
+      <div class="kitchen-card-top"><span class="status-pill status-preparing">In preparazione</span><time datetime="{{ o.ora }}">{{ o.ora_testo }}</time></div>
+      <div class="card-body d-flex flex-column">
+        <span class="eyebrow">{{ o.zona }}</span><h2>Tavolo <span>{{ o.numero_tavolo }}</span></h2>
+        <p class="kitchen-dish"><span>{{ o.quantita }} ×</span> {{ o.nome }}</p>
+        <a class="btn btn-success w-100 mt-auto" href="/ordinazione/{{ o.id_ordinazione }}/servito">Servito <span aria-hidden="true">✓</span></a>
+      </div>
+    </article>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<section class="surface empty-state kitchen-empty"><span class="empty-symbol" aria-hidden="true">✓</span><h2>Cucina tranquilla 😊</h2><p>Tutti i piatti sono stati serviti. È il momento di una piccola pausa.</p><a class="btn btn-outline-primary" href="/tavoli">Vai ai tavoli <span aria-hidden="true">→</span></a></section>
+{% endif %}
+<p class="page-note">Nuove ordinazioni? <a href="/cucina">Aggiorna la cucina <span aria-hidden="true">↻</span></a></p>
+{% endblock %}

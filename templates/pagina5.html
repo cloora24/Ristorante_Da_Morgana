@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block titolo %}Statistiche{% endblock %}
+
+{% block contenuto %}
+<header class="page-heading"><span class="eyebrow">UNO SGUARDO AL SERVIZIO</span><h1>La serata, in numeri.</h1><p>Il punto sui tavoli, sulla cucina e sui conti ancora aperti.</p></header>
+<section class="row g-3 mb-4" aria-label="Numeri della serata">
+  <div class="col-12 col-md-4"><article class="card stat-card h-100"><div class="card-body"><span class="eyebrow">IN SALA</span><h2>Tavoli occupati</h2><strong class="stat-value">{{ numeri.tavoli_occupati }}</strong><p>Tavoli con un conto aperto</p></div></article></div>
+  <div class="col-12 col-md-4"><article class="card stat-card h-100"><div class="card-body"><span class="eyebrow">IN CUCINA</span><h2>Piatti in preparazione</h2><strong class="stat-value">{{ numeri.in_preparazione }}</strong><p>Ordinazioni in attesa di essere servite</p></div></article></div>
+  <div class="col-12 col-md-4"><article class="card stat-card stat-card-accent h-100"><div class="card-body"><span class="eyebrow">CONTI APERTI</span><h2>Incasso in sala</h2><strong class="stat-value money-value">€ {{ numeri.incasso }}</strong><p>Somma dei conti attualmente aperti</p></div></article></div>
+</section>
+<div class="row g-4">
+  <div class="col-12 col-lg-7"><section class="surface h-100" aria-labelledby="titolo-popolari">
+    <div class="section-heading"><div><span class="eyebrow">I PREFERITI DELLA SALA</span><h2 id="titolo-popolari">Piatti più ordinati</h2></div></div>
+    {% if piatti %}
+    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th scope="col">#</th><th scope="col">Piatto</th><th scope="col" class="text-end">Porzioni</th></tr></thead><tbody>
+      {% for p in piatti %}
+      <tr><td><span class="ranking {% if loop.index == 1 %}ranking-first{% endif %}">{{ loop.index }}</span></td><td><strong>{{ p.nome }}</strong></td><td class="text-end"><span class="quantity">{{ p.porzioni }}</span></td></tr>
+      {% endfor %}
+    </tbody></table></div>
+    {% else %}<div class="empty-state"><h3>La serata deve ancora iniziare</h3><p>Qui compariranno i piatti ordinati dai tavoli.</p></div>{% endif %}
+  </section></div>
+  <div class="col-12 col-lg-5"><section class="surface h-100" aria-labelledby="titolo-conti">
+    <div class="section-heading"><div><span class="eyebrow">IL RIEPILOGO</span><h2 id="titolo-conti">Conto per tavolo</h2></div></div>
+    {% if conti %}
+    <div class="table-responsive"><table class="table align-middle mb-0"><thead><tr><th scope="col">Tavolo</th><th scope="col" class="text-end">Totale</th></tr></thead><tbody>
+      {% for t in conti %}
+      <tr><td><a class="table-account-link" href="/tavolo/{{ t.id_tavolo }}"><span class="table-number">{{ t.numero }}</span> Vai al tavolo <span aria-hidden="true">→</span></a></td><td class="text-end price">€ {{ t.totale }}</td></tr>
+      {% endfor %}
+    </tbody></table></div>
+    {% else %}<div class="empty-state"><h3>Nessun conto aperto</h3><p>I tavoli sono tutti liberi.</p></div>{% endif %}
+  </section></div>
+</div>
+<p class="page-note">Le statistiche riguardano i conti aperti. Chiudendo un conto, le sue ordinazioni vengono rimosse.</p>
+{% endblock %}
